@@ -1,7 +1,7 @@
 {
-    "name": "insurance",
+    "name": "plate-registry",
     "version": "1.0.0",
-    "description": "Insurance application implemented in JavaScript",
+    "description": "Plate Registry application implemented in JavaScript",
     "engines": {
         "node": ">=8",
         "npm": ">=5"

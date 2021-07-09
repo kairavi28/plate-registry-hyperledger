@@ -1,7 +1,7 @@
 {
     "name": "plate-registry",
     "version": "1.0.0",
-    "description": "Multiple contract implemented in JavaScript",
+    "description": "Multiple contracts implemented in JavaScript",
     "main": "index.js",
     "engines": {
         "node": ">=12",
