@@ -1,5 +1,5 @@
 {
-    "name": "plate-registery",
+    "name": "plate-registry",
     "version": "1.0.0",
     "description": "Multiple contract implemented in JavaScript",
     "main": "index.js",
