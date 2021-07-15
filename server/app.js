@@ -1,9 +1,9 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-const FabricCAServices = require('fabric-ca-client');
-const { Wallets } = require('fabric-network');
+const express = require('express');
+const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+
+const enrollAdmin = require('../fabric-sdk/modules/enrollAdmin');
 
 const app = express();
 const httpServer = require('http').createServer(app);
@@ -20,3 +20,14 @@ httpServer.listen(port, () => {
 app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
+
+app.post('/api/enrollAdmin', async (req, res) => {
+
+    try {
+        const result = await enrollAdmin();
+        res.send(result);
+    } catch (e) {
+        res.status(400).send(e.message)
+    }
+
+})

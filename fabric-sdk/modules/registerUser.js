@@ -11,7 +11,7 @@ const FabricCAServices = require('fabric-ca-client');
 const fs = require('fs');
 const path = require('path');
 
-async function main() {
+async function registerUser() {
     try {
         // load the network configuration
         const ccpPath = path.resolve(__dirname, '..', '..', '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
@@ -72,4 +72,4 @@ async function main() {
     }
 }
 
-main();
+export default registerUser;
