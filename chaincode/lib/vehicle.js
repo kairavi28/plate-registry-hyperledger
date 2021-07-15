@@ -28,7 +28,7 @@ class Assigned_Plate extends Contract {
                 model: 'Elentra',
                 year: '2020',
                 engine_number: '6582331',
-                chassis_number: '10138682'
+                chassis_number: '10138683'
             }
         ];
         

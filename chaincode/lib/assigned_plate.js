@@ -12,26 +12,26 @@ class Assigned_Plate extends Contract {
 
     async initLedger(ctx) {
         console.info('============= START : Initialize Vehicle Ledger ===========');
-        const assigned_plates = [
+        const mocklist = [
             {
-                client_id: '17653661',
-                chassis_number: '10138682',
-                plate_number: 'KUOGN85R3B012814'
+                owner_id: '11112',
+                plate_number: 'AB1234',
+                chassis_number: '10138682'
             }, {
-                client_id: '17653662',
-                chassis_number: '10138682',
-                plate_number: 'KUOGN82R3J012909'
+                owner_id: '11113',
+                plate_number: 'AB1567',
+                chassis_number: '10138683',
             }
         ];
 
-        for (let i = 0; i < assigned_plates.length; i++) {
-            await ctx.stub.putState(assigned_plates[i].plate_number, Buffer.from(JSON.stringify(assigned_plates[i])));
-            console.info('Added <--> ', assigned_plates[i]);
+        for (let i = 0; i < mocklist.length; i++) {
+            await ctx.stub.putState(mocklist[i].plate_number, Buffer.from(JSON.stringify(mocklist[i])));
+            console.info('Added <--> ', mocklist[i]);
         }
 
         console.info('============= END : Initialize Vehicle Ledger ===========');
     }
-    async addVehicleInfo(ctx, client_id, chassis_number, plate_number) {
+    async addPlateInfo(ctx, owner_id, plate_number, chassis_number) {
         console.info('============= START : Create ledger for Storing Vehicle Information ===========');
 
         const vehicleDetails = await ctx.stub.getState(plate_number);
@@ -39,26 +39,26 @@ class Assigned_Plate extends Contract {
             throw new Error(`${plate_number} already exists!`);
         }
 
-        const vehicle = {
-            client_id,
-            chassis_number,
-            plate_number
+        const plate = {
+            owner_id,
+            plate_number,
+            chassis_number
         };
 
-        await ctx.stub.putState(plate_number, Buffer.from(JSON.stringify(vehicle)));
+        await ctx.stub.putState(plate_number, Buffer.from(JSON.stringify(plate)));
         console.info('============= END : Create ledger for Storing Vehicle Information ===========');
     }
 
-    async getVehicleInfo(ctx, plate_number) {
-        const vehicleDetails = await ctx.stub.getState(plate_number);
-        if (!vehicleDetails || vehicleDetails.length === 0) {
+    async getPlateInfo(ctx, plate_number) {
+        const plateDetails = await ctx.stub.getState(plate_number);
+        if (!plateDetails || plateDetails.length === 0) {
             throw new Error(`${plate_number} does not exist!`);
         }
-        console.log(vehicleDetails.toString());
-        return vehicleDetails.toString();
+        console.log(plateDetails.toString());
+        return plateDetails.toString();
     }
 
-    async queryAllVehicles(ctx) {
+    async queryAllPlateRecords(ctx) {
         const startKey = '';
         const endKey = '';
         const allResults = [];
