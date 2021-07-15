@@ -5,6 +5,7 @@ const path = require('path');
 
 const enrollAdmin = require('../fabric-sdk/modules/enrollAdmin');
 const registerUser = require('../fabric-sdk/modules/registerUser');
+const invoke = require('../fabric-sdk/modules/invoke');
 
 const app = express();
 const httpServer = require('http').createServer(app);
@@ -22,6 +23,8 @@ app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 
+
+//call once -- setup
 app.post('/api/enrollAdmin', async (req, res) => {
 
     try {
@@ -33,11 +36,28 @@ app.post('/api/enrollAdmin', async (req, res) => {
 
 });
 
+//call once -- setup
 app.post('/api/registerUser', async (req, res) => {
 
     try {
         const result = await registerUser();
         res.send(result);
+    } catch (e) {
+        res.status(400).send(e.message)
+    }
+
+});
+
+
+app.post('/api/invoke', async (req, res) => {
+
+    try {
+
+        const { contract, funcName } = req.body;
+
+        const result = await invoke(contract, funcName);
+        res.send(result);
+
     } catch (e) {
         res.status(400).send(e.message)
     }
