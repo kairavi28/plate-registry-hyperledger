@@ -38,7 +38,7 @@ class Payment extends Contract {
 
         const paymentDetails = await ctx.stub.getState(payment_id);
         if (!!paymentDetails) {
-            throw new Error(`A payment with ID: ${owner_id} already exists!`);
+            throw new Error(`A payment with ID: ${payment_id} already exists!`);
         }
 
         const newPayment = {
