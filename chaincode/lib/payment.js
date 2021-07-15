@@ -58,7 +58,7 @@ class Payment extends Contract {
         const paymentDetails = await ctx.stub.getState(payment_id);
 
         if (!paymentDetails || paymentDetails.length === 0) {
-            throw new Error(`${owner_id} does not exist`);
+            throw new Error(`${payment_id} does not exist`);
         }
 
         return paymentDetails.toString();
