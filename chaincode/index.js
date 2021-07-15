@@ -6,8 +6,12 @@
 
 'use strict';
 
-const Test = require('./lib/test');
+const Owner = require('./lib/owner');
+const Plate = require('./lib/plate');
+const Payment = require('./lib/payment');
 
-module.exports.Test = Test;
+module.exports.Owner = Owner;
+module.exports.Plate = Plate;
+module.exports.Payment = Payment;
 
-module.exports.contracts = [Test];
+module.exports.contracts = [Owner, Plate, Payment];
