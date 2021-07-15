@@ -9,7 +9,7 @@
 const { Contract } = require('fabric-contract-api');
 const { ClientIdentity } = require('fabric-shim');
 
-class Assigned_Plate extends Contract {
+class Vehicle extends Contract {
 
     async initLedger(ctx) {
 
@@ -92,4 +92,4 @@ class Assigned_Plate extends Contract {
     }
 }
 
-module.exports = Assigned_Plate;
+module.exports = Vehicle;
