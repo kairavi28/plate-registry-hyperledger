@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const { roles } = require('./modules/Auth');
 
 const enrollAdmin = require('../fabric-sdk/modules/enrollAdmin');
 const registerUser = require('../fabric-sdk/modules/registerUser');
@@ -24,11 +25,20 @@ app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 
+const requireAuth = (req, res, next) => {
+    const { authorization } = req.headers;
+
+    //check bearer token
+    if (authorization == roles.authenticated) next();
+    else res.status(401).send();
+}
 
 //call once -- setup
-app.post('/api/enrollAdmin', async (req, res) => {
+app.post('/api/enrollAdmin', requireAuth, async (req, res) => {
 
     try {
+        //check authentication here
+
         const result = await enrollAdmin();
         res.send(result);
     } catch (e) {
@@ -38,7 +48,7 @@ app.post('/api/enrollAdmin', async (req, res) => {
 });
 
 //call once -- setup
-app.post('/api/registerUser', async (req, res) => {
+app.post('/api/registerUser', requireAuth, async (req, res) => {
 
     try {
         const result = await registerUser();
@@ -50,7 +60,7 @@ app.post('/api/registerUser', async (req, res) => {
 });
 
 
-app.post('/api/invoke', async (req, res) => {
+app.post('/api/invoke', requireAuth, async (req, res) => {
 
     try {
 
@@ -65,7 +75,7 @@ app.post('/api/invoke', async (req, res) => {
 });
 
 
-app.post('/api/query', async (req, res) => {
+app.post('/api/query', requireAuth, async (req, res) => {
 
     try {
 
