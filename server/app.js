@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+
 const { roles } = require('./modules/Auth');
+const { contracts } = require('./modules/Contracts');
 
 const enrollAdmin = require('../fabric-sdk/modules/enrollAdmin');
 const registerUser = require('../fabric-sdk/modules/registerUser');
@@ -60,12 +62,42 @@ app.post('/api/registerUser', requireAuth, async (req, res) => {
 });
 
 
-app.post('/api/invoke', requireAuth, async (req, res) => {
+// app.post('/api/invoke', requireAuth, async (req, res) => {
+
+//     try {
+
+//         const { contract, funcName } = req.body;
+//         const result = await invoke(contract, funcName, []);
+//         res.send(result);
+
+//     } catch (e) {
+//         res.status(400).send(e.message)
+//     }
+
+// });
+
+// app.post('/api/query', requireAuth, async (req, res) => {
+
+//     try {
+
+//         const { contract, funcName, pr1 } = req.body;
+//         const result = await query(contract, funcName, pr1);
+//         res.send(result);
+
+//     } catch (e) {
+//         res.status(400).send(e.message)
+//     }
+
+// });
+
+app.post('/api/owner/create', requireAuth, async (req, res) => {
 
     try {
 
-        const { contract, funcName } = req.body;
-        const result = await invoke(contract, funcName);
+        const { owner_id, first_name, last_name, reg_date } = req.body;
+        const model = Object.values({ owner_id, first_name, last_name, reg_date });
+
+        const result = await invoke(contracts.owner.name, contracts.owner.functions.addNewOwner, model);
         res.send(result);
 
     } catch (e) {
@@ -74,13 +106,14 @@ app.post('/api/invoke', requireAuth, async (req, res) => {
 
 });
 
-
-app.post('/api/query', requireAuth, async (req, res) => {
+app.post('/api/owner/findOne', requireAuth, async (req, res) => {
 
     try {
 
-        const { contract, funcName, pr1 } = req.body;
-        const result = await query(contract, funcName, pr1);
+        const { owner_id } = req.body;
+        const model = Object.values({ owner_id });
+
+        const result = await query(contracts.owner.name, contracts.owner.functions.getOwnerInfo, model);
         res.send(result);
 
     } catch (e) {
