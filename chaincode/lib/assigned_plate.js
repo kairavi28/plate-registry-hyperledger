@@ -10,50 +10,62 @@ const { Contract } = require('fabric-contract-api');
 
 class Assigned_Plate extends Contract {
 
+    getKey(chassis_number, plate_number) {
+        return `${chassis_number}-${plate_number}`; //the key to each row is a composite key)
+    }
+
     async initLedger(ctx) {
         console.info('============= START : Initialize Vehicle Ledger ===========');
         const mocklist = [
             {
-                owner_id: '11112',
+                chassis_number: '10138682',
                 plate_number: 'AB1234',
-                chassis_number: '10138682'
+                assign_date: '2020-10-10'
             }, {
-                owner_id: '11113',
+                chassis_number: '10138682',
                 plate_number: 'AB1567',
-                chassis_number: '10138683',
+                assign_date: '2020-10-11',
             }
         ];
 
         for (let i = 0; i < mocklist.length; i++) {
-            await ctx.stub.putState(mocklist[i].plate_number, Buffer.from(JSON.stringify(mocklist[i])));
+            const key = getKey(mocklist[i].chassis_number, mocklist[i].plate_number);
+            await ctx.stub.putState(key, Buffer.from(JSON.stringify(mocklist[i])));
             console.info('Added <--> ', mocklist[i]);
         }
 
         console.info('============= END : Initialize Vehicle Ledger ===========');
     }
-    async addPlateInfo(ctx, owner_id, plate_number, chassis_number) {
+
+    async addPlateInfo(ctx, chassis_number, plate_number, assign_date) {
         console.info('============= START : Create ledger for Storing Vehicle Information ===========');
 
-        const vehicleDetails = await ctx.stub.getState(plate_number);
+        const key = getKey(chassis_number, plate_number);
+
+        const vehicleDetails = await ctx.stub.getState(key);
         if (!!vehicleDetails) {
-            throw new Error(`${plate_number} already exists!`);
+            throw new Error('Registry already exists!');
         }
 
-        const plate = {
-            owner_id,
+        const newAssignedPlate = {
+            chassis_number,
             plate_number,
-            chassis_number
+            assign_date
         };
 
-        await ctx.stub.putState(plate_number, Buffer.from(JSON.stringify(plate)));
+        await ctx.stub.putState(key, Buffer.from(JSON.stringify(newAssignedPlate)));
         console.info('============= END : Create ledger for Storing Vehicle Information ===========');
     }
 
-    async getPlateInfo(ctx, plate_number) {
-        const plateDetails = await ctx.stub.getState(plate_number);
+    async getPlateInfo(ctx, chassis_number, plate_number) {
+
+        const key = getKey(chassis_number, plate_number);
+
+        const plateDetails = await ctx.stub.getState(key);
         if (!plateDetails || plateDetails.length === 0) {
-            throw new Error(`${plate_number} does not exist!`);
+            throw new Error('Registry does not exist!');
         }
+
         console.log(plateDetails.toString());
         return plateDetails.toString();
     }
