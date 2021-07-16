@@ -7,7 +7,6 @@
 'use strict';
 
 const { Contract } = require('fabric-contract-api');
-const { ClientIdentity } = require('fabric-shim');
 
 class Vehicle extends Contract {
 
