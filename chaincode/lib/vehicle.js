@@ -16,33 +16,32 @@ class Vehicle extends Contract {
         console.info('============= START : Initialize Vehicle Ledger ===========');
         const registered_vehicles = [
             {
+                chassis_number: '10138682', //vehicle identification number
                 automobile_type: 'car',
                 make: 'Toyota',
                 model: 'Prius',
                 year: '2020',
-                engine_number: '6582331',
-                chassis_number: '10138682'
+                engine_number: '6582331'
             }, {
-                automobile_type:'car',
+                chassis_number: '10138683',
+                automobile_type: 'car',
                 make: 'Hyundai',
                 model: 'Elentra',
                 year: '2020',
-                engine_number: '6582331',
-                chassis_number: '10138683'
+                engine_number: '6582332'
             }
         ];
-        
+
         for (let i = 0; i < registered_vehicles.length; i++) {
-            await ctx.stub.putState(registered_vehicles[i].plate_number, Buffer.from(JSON.stringify(registered_vehicles[i])));
+            await ctx.stub.putState(registered_vehicles[i].chassis_number, Buffer.from(JSON.stringify(registered_vehicles[i])));
             console.info('Added <--> ', registered_vehicles[i]);
         }
 
         console.info('============= END : Initialize Vehicle Ledger ===========');
     }
 
-    async addVehicleInfo(ctx, automobile_type, make, model, year, engine_number, chassis_number) {
+    async addVehicleInfo(ctx, chassis_number, automobile_type, make, model, year, engine_number) {
 
-    async addVehicle(ctx, customer_id, make, model, year, plate_number) {
         console.info('============= START : Create ledger for Storing Vehicle Information ===========');
 
         const vehicleDetails = await ctx.stub.getState(chassis_number);
@@ -51,12 +50,12 @@ class Vehicle extends Contract {
         }
 
         const vehicle = {
+            chassis_number,
             automobile_type,
             make,
             model,
             year,
-            engine_number,
-            chassis_number
+            engine_number
         };
 
         await ctx.stub.putState(chassis_number, Buffer.from(JSON.stringify(vehicle)));
