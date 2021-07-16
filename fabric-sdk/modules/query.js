@@ -11,13 +11,13 @@ const path = require('path');
 const fs = require('fs');
 
 
-async function query(contractName, functionName, pr1) {
+async function query(contractName, functionName, others) {
 
     // load the network configuration
     const ccpPath = path.resolve(__dirname, '..', '..', '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
     const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
-    if (!contractName || !functionName || !pr1) {
+    if (!contractName || !functionName || !others) {
         throw new Error('Pass the required arguments.');
     }
 
@@ -44,13 +44,13 @@ async function query(contractName, functionName, pr1) {
     // Evaluate the specified transaction.
     // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
     // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
-    const result = await contract.evaluateTransaction(functionName, pr1);
-
-    // you can modify result before sending back to api
-    return result;
+    const result = await contract.evaluateTransaction(functionName, ...others);
 
     // Disconnect from the gateway.
     await gateway.disconnect();
+
+    // you can modify result before sending back to api
+    return result;
 
 }
 
