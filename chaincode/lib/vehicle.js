@@ -44,7 +44,7 @@ class Vehicle extends Contract {
         console.info('============= START : Create ledger for Storing Vehicle Information ===========');
 
         const vehicleDetails = await ctx.stub.getState(chassis_number);
-        if (!!vehicleDetails) {
+        if (!!vehicleDetails.length) {
             throw new Error(`${chassis_number} already exists!`);
         }
 

@@ -43,7 +43,7 @@ class Assigned_Plate extends Contract {
         const key = getKey(chassis_number, plate_number);
 
         const vehicleDetails = await ctx.stub.getState(key);
-        if (!!vehicleDetails) {
+        if (!!vehicleDetails.length) {
             throw new Error('Registry already exists!');
         }
 

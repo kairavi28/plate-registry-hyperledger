@@ -37,7 +37,7 @@ class Payment extends Contract {
     async addNewPayment(ctx, payment_id, owner_id, plate_number, amount, payment_date) {
 
         const paymentDetails = await ctx.stub.getState(payment_id);
-        if (!!paymentDetails) {
+        if (!!paymentDetails.length) {
             throw new Error(`A payment with ID: ${payment_id} already exists!`);
         }
 

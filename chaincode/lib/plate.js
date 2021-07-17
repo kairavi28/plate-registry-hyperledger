@@ -35,7 +35,7 @@ class Plate extends Contract {
     async addNewPlate(ctx, plate_number, owner_id, registration_date) {
 
         const plateDetails = await ctx.stub.getState(plate_number);
-        if (!!plateDetails) {
+        if (!!plateDetails.length) {
             throw new Error(`Plate number: ${plate_number} already exists!`);
         }
 
