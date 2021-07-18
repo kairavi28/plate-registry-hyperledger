@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 
 const { roles } = require('./modules/Auth');
 const { contracts } = require('./modules/Contracts');
@@ -14,6 +15,7 @@ const query = require('../fabric-sdk/modules/query');
 const app = express();
 const httpServer = require('http').createServer(app);
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
