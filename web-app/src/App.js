@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navigation from './components/navigation';
+import Vehicle from './components/registerVehicle';
+import Enroll from './components/enroll';
+import CreateOwner from './components/createOwner';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <>
+      <Navigation/>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/enroll' component={Enroll}/>
+          <Route exact path='/vehicle' component={Vehicle}/>
+          <Route exact path='/createOwner' component={CreateOwner}/>
+          
+        </Switch>
+      </BrowserRouter>
+  </>
   );
 }
 
