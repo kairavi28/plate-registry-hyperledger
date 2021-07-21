@@ -20,10 +20,11 @@ function Enroll() {
     }
     catch (e) {
 
-      setAdmin({
-        status: 'err',
-        msg: e.response.data
-      });
+      if (e.response)
+        setAdmin({
+          status: 'err',
+          msg: e.response.data
+        });
     }
 
   }
@@ -42,10 +43,11 @@ function Enroll() {
     }
     catch (e) {
 
-      setUser({
-        status: 'err',
-        msg: e.response.data
-      });
+      if (e.response)
+        setUser({
+          status: 'err',
+          msg: e.response.data
+        });
     }
 
   }
