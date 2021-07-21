@@ -63,41 +63,20 @@ app.post('/api/registerUser', requireAuth, async (req, res) => {
 
 });
 
-
-// app.post('/api/invoke', requireAuth, async (req, res) => {
-
-//     try {
-
-//         const { contract, funcName } = req.body;
-//         const result = await invoke(contract, funcName, []);
-//         res.send(result);
-
-//     } catch (e) {
-//         res.status(400).send(e.message)
-//     }
-
-// });
-
-// app.post('/api/query', requireAuth, async (req, res) => {
-
-//     try {
-
-//         const { contract, funcName, pr1 } = req.body;
-//         const result = await query(contract, funcName, pr1);
-//         res.send(result);
-
-//     } catch (e) {
-//         res.status(400).send(e.message)
-//     }
-
-// });
-
 app.post('/api/owner/create', requireAuth, async (req, res) => {
 
     try {
 
         const { owner_id, first_name, last_name, reg_date } = req.body;
         const model = Object.values({ owner_id, first_name, last_name, reg_date });
+
+        const ownerModel = Object.values({ owner_id });
+        const onwerQuery = await query(contracts.owner.name, contracts.owner.functions.getOwnerInfo, ownerModel);
+
+        if (onwerQuery.length) { 
+            res.status(400).send(`Owner ID: ${owner_id} already exists!`);
+            return;
+        }
 
         const result = await invoke(contracts.owner.name, contracts.owner.functions.addNewOwner, model);
         res.send(result);
