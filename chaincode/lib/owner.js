@@ -32,12 +32,9 @@ class Owner extends Contract {
 
     }
 
-    async addNewOwner(ctx, owner_id, first_name, last_name, registration_date) {
+    async addOrUpdateOwner(ctx, owner_id, first_name, last_name, registration_date) {
 
-        const ownerDetails = await ctx.stub.getState(owner_id);
-        if (!!ownerDetails.length) { 
-            throw new Error(`Customer with ID: ${owner_id} already exists!`);
-        }
+        //add or update with a given key
 
         const newOwner = {
             owner_id,
@@ -53,10 +50,6 @@ class Owner extends Contract {
     async getOwnerInfo(ctx, owner_id) {
 
         const ownerDetails = await ctx.stub.getState(owner_id);
-
-        if (!ownerDetails || ownerDetails.length === 0) {
-            throw new Error(`${owner_id} does not exist`);
-        }
         
         return ownerDetails.toString();
     }
