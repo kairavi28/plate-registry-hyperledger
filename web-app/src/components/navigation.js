@@ -11,6 +11,7 @@ const Navigation = () => {
           <Nav className="me-auto">
             <Nav.Link href="enroll">Enrollment</Nav.Link>
             <Nav.Link href="createOwner">Create Owner</Nav.Link>
+            <Nav.Link href="owner-List">Owner List</Nav.Link>
             <NavDropdown title="Register" id="collasible-nav-dropdown">
               <NavDropdown.Item href="vehicle">Vehicle</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Customer</NavDropdown.Item>
