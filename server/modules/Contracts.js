@@ -3,7 +3,7 @@ module.exports = {
         owner: {
             name: 'Owner',
             functions: {
-                addNewOwner: 'addNewOwner',
+                addOrUpdateOwner: 'addOrUpdateOwner',
                 getOwnerInfo: 'getOwnerInfo',
                 queryAllOwners: 'queryAllOwners'
             }
