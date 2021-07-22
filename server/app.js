@@ -78,7 +78,36 @@ app.post('/api/owner/create', requireAuth, async (req, res) => {
             return;
         }
 
-        const result = await invoke(contracts.owner.name, contracts.owner.functions.addNewOwner, model);
+        const result = await invoke(contracts.owner.name, contracts.owner.functions.addOrUpdateOwner, model);
+        res.send(result);
+
+    } catch (e) {
+        res.status(400).send(e.message)
+    }
+
+});
+
+app.post('/api/owner/Edit', requireAuth, async (req, res) => {
+
+    try {
+
+        const { owner_id, first_name, last_name, reg_date } = req.body;
+        const model = Object.values({ owner_id, first_name, last_name, reg_date });
+
+        const result = await invoke(contracts.owner.name, contracts.owner.functions.addOrUpdateOwner, model);
+        res.send(result);
+
+    } catch (e) {
+        res.status(400).send(e.message)
+    }
+
+});
+
+app.post('/api/owner/queryAll', requireAuth, async (req, res) => {
+
+    try {
+
+        const result = await query(contracts.owner.name, contracts.owner.functions.queryAllOwners, []);
         res.send(result);
 
     } catch (e) {
